@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Gradient for the Crown -->
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F3E5AB" />
+      <stop offset="50%" stop-color="#D4AF37" />
+      <stop offset="100%" stop-color="#AA7C11" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Royal Shield / Circle background -->
+  <circle cx="50" cy="50" r="45" fill="#1C1814" stroke="url(#goldGrad)" stroke-width="2"/>
+  
+  <!-- Crown Design -->
+  <path d="M25 70 L25 55 L35 62 L50 40 L65 62 L75 55 L75 70 Z" fill="url(#goldGrad)"/>
+  
+  <!-- Crown Base Line -->
+  <rect x="23" y="68" width="54" height="4" rx="2" fill="#E6CA65"/>
+  <rect x="27" y="73" width="46" height="2" rx="1" fill="#C59B27"/>
+  
+  <!-- Crown Jewels -->
+  <circle cx="50" cy="40" r="3" fill="#D4AF37" stroke="#FFF" stroke-width="0.5"/>
+  <circle cx="25" cy="55" r="2.5" fill="#D4AF37" stroke="#FFF" stroke-width="0.5"/>
+  <circle cx="75" cy="55" r="2.5" fill="#D4AF37" stroke="#FFF" stroke-width="0.5"/>
+  
+  <!-- Sparkles -->
+  <path d="M50 15 L52 23 L60 25 L52 27 L50 35 L48 27 L40 25 L48 23 Z" fill="#D4AF37" opacity="0.8">
+    <animate attributeName="opacity" values="0.4;1;0.4" dur="3s" repeatCount="indefinite"/>
+  </path>
+</svg>
