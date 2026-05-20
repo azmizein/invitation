@@ -6,38 +6,61 @@ export default function AudioPlayer() {
   const audioRef = useRef(null)
 
   useEffect(() => {
-    // Risk It All by Bruno Mars
-    // Using a streaming-friendly URL
-    audioRef.current = new Audio('https://files.catbox.moe/m3jd8o.mp3')
+    // Risk It All by Bruno Mars - from public folder
+    audioRef.current = new Audio('/risk-it-all.mp3')
     audioRef.current.loop = true
-    audioRef.current.volume = 0.4
+    audioRef.current.volume = 0.5
 
-    // Auto-play when component mounts (after user interaction on gate)
-    const playAudio = () => {
-      if (audioRef.current) {
-        audioRef.current.play().catch(err => console.log("Audio play failed: ", err))
+    // Auto-play saat halaman dibuka
+    const autoPlay = async () => {
+      try {
+        await audioRef.current.play()
         setIsPlaying(true)
+      } catch (err) {
+        console.log("Autoplay blocked, waiting for user interaction...")
       }
     }
 
-    // Add a small delay to ensure audio is ready
-    const timer = setTimeout(playAudio, 500)
+    // Delay sedikit untuk memastikan audio siap
+    const timer = setTimeout(autoPlay, 800)
+
+    // Fallback: play on first user interaction (click anywhere)
+    const handleUserInteraction = async () => {
+      if (audioRef.current && !isPlaying) {
+        try {
+          await audioRef.current.play()
+          setIsPlaying(true)
+          document.removeEventListener('click', handleUserInteraction)
+        } catch (err) {
+          console.log("Play failed on click")
+        }
+      }
+    }
+
+    document.addEventListener('click', handleUserInteraction)
 
     return () => {
       clearTimeout(timer)
+      document.removeEventListener('click', handleUserInteraction)
       if (audioRef.current) {
         audioRef.current.pause()
       }
     }
-  }, [])
+  }, [isPlaying])
 
   const togglePlay = () => {
+    if (!audioRef.current) return
+    
     if (isPlaying) {
       audioRef.current.pause()
+      setIsPlaying(false)
     } else {
-      audioRef.current.play().catch(err => console.log("Audio play failed: ", err))
+      audioRef.current.play().catch(err => {
+        console.error("Audio play failed: ", err)
+        alert("Audio tidak bisa diputar. Pastikan file risk-it-all.mp3 ada di folder public/")
+      })
+      setIsPlaying(true)
     }
-    setIsPlaying(!isPlaying)
   }
 
   return (
